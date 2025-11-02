@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || '';
 
@@ -14,7 +14,7 @@ export async function comparePassword(plain: string, hash: string): Promise<bool
 
 export function signToken(payload: object, expiresIn: string = '7d'): string {
   if (!JWT_SECRET) throw new Error('JWT_SECRET manquant');
-  return jwt.sign(payload as any, JWT_SECRET, { expiresIn });
+  return jwt.sign(payload, JWT_SECRET, { expiresIn } as SignOptions);
 }
 
 export function verifyToken<T = any>(token: string): T {

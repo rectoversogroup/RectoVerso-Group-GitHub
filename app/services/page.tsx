@@ -1,11 +1,18 @@
 import Link from "next/link";
 import { getBaseUrl } from "../../utils/baseUrl";
 
+export const dynamic = 'force-dynamic';
+
 async function fetchServices() {
-  const base = getBaseUrl();
-  const res = await fetch(`${base}/api/services`, { cache: 'no-store' });
-  if (!res.ok) return [];
-  return res.json();
+  try {
+    const base = getBaseUrl();
+    const res = await fetch(`${base}/api/services`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    return res.json();
+  } catch (error) {
+    console.error('Erreur lors de la récupération des services:', error);
+    return [];
+  }
 }
 
 export default async function ServicesPage() {
